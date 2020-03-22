@@ -20,6 +20,10 @@ ylabel('Exam 2 score')
 legend('Admitted', 'Not admitted')
 ```
 
+The data is visualised as in figure below.
+
+<img src="https://github.com/a-yosua/machine-learning/blob/master/examScore.png" width="400">
+
 ## Cost function
 
 The code below will implement the cost function.
