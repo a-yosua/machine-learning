@@ -2,7 +2,7 @@
 
 This section will build a logistic regression model to predict the chance of student admission to the university based on their past two exams.
 
-This MATLAB codes in this section is based on the exercises from Andrew Ng's [Machine Learning](https://www.coursera.org/learn/machine-learning) course on Coursera.
+The MATLAB codes in this section is based on the exercises from Andrew Ng's [Machine Learning](https://www.coursera.org/learn/machine-learning) course on Coursera.
 
 ## Data overview
 
@@ -20,13 +20,92 @@ ylabel('Exam 2 score')
 legend('Admitted', 'Not admitted')
 ```
 
+The ``plotData`` function is defined as below.
+
+```Matlab
+function plotData(X, y)
+%PLOTDATA Plots the data points X and y into a new figure 
+%   PLOTDATA(x,y) plots the data points with + for the positive examples
+%   and o for the negative examples. X is assumed to be a Mx2 matrix.
+
+% Create New Figure
+figure; hold on;
+
+% ====================== YOUR CODE HERE ======================
+% Instructions: Plot the positive and negative examples on a
+%               2D plot, using the option 'k+' for the positive
+%               examples and 'ko' for the negative examples.
+%
+
+% Find Indices of Positive and Negative Examples
+pos = find(y==1); neg = find(y == 0);
+% Plot Examples
+plot(X(pos, 1), X(pos, 2), 'k+','LineWidth', 2, 'MarkerSize', 7);
+plot(X(neg, 1), X(neg, 2), 'ko', 'MarkerFaceColor', 'y','MarkerSize', 7);
+
+% =========================================================================
+
+hold off;
+
+end
+```
+
 The data is visualised as in figure below.
 
 <img src="https://github.com/a-yosua/machine-learning/blob/master/examScore.png" width="400">
 
-## Cost function
+## Implementation
 
-The code below will implement the cost function.
+### Sigmoid function
+
+The logistic regression hypothesis is defined as 
+
+![h_\theta(x)=g(\theta^TX)](https://render.githubusercontent.com/render/math?math=h_%5Ctheta(x)%3Dg(%5Ctheta%5ETX))
+
+where ``g`` is the sigmoid function which is defined as 
+
+![g(z)=\frac{1}{1+e^{-z}}](https://render.githubusercontent.com/render/math?math=g(z)%3D%5Cfrac%7B1%7D%7B1%2Be%5E%7B-z%7D%7D).
+
+The code below will implement sigmoid function.
+
+```Matlab
+function g = sigmoid(z)
+%SIGMOID Compute sigmoid function
+%   g = SIGMOID(z) computes the sigmoid of z.
+
+% You need to return the following variables correctly 
+g = zeros(size(z));
+
+% ====================== YOUR CODE HERE ======================
+% Instructions: Compute the sigmoid of each value of z (z can be a matrix,
+%               vector or scalar).
+
+g = 1./(1+exp(-z));
+
+% =============================================================
+
+end
+```
+
+Run the code above as below to check whether the function works properly. For large positive values of ``x``, the sigmoid function should return value close to 1. For large negative values of ``x``, the sigmoid function should return value close to 0. For ``x=0``, the sigmoid function should return 0.5.
+
+```Matlab
+sigmoid(0)
+```
+
+### Cost function
+
+The cost function for logistic regression is:
+
+![J(\theta)=\frac{1}{m}\sum_{i=1}^{m}\[-y^{(i)}\textrm{log}(h_\theta(x^{(i)}))-(1-y^{(i)})\textrm{log}(1-h_\theta(x^{(i)}))\]](https://render.githubusercontent.com/render/math?math=J(%5Ctheta)%3D%5Cfrac%7B1%7D%7Bm%7D%5Csum_%7Bi%3D1%7D%5E%7Bm%7D%5B-y%5E%7B(i)%7D%5Ctextrm%7Blog%7D(h_%5Ctheta(x%5E%7B(i)%7D))-(1-y%5E%7B(i)%7D)%5Ctextrm%7Blog%7D(1-h_%5Ctheta(x%5E%7B(i)%7D))%5D)
+
+### Cost gradient
+
+The cost gradient with a length of ![\theta](https://render.githubusercontent.com/render/math?math=%5Ctheta) is defined as below:
+
+![\frac{\partial J(\theta)}{\partial \theta_j}=\frac{1}{m}\sum_{i=1}^{m}(h_\theta(x^{(i)})-y^{(i)})x^{(i)}_j](https://render.githubusercontent.com/render/math?math=%5Cfrac%7B%5Cpartial%20J(%5Ctheta)%7D%7B%5Cpartial%20%5Ctheta_j%7D%3D%5Cfrac%7B1%7D%7Bm%7D%5Csum_%7Bi%3D1%7D%5E%7Bm%7D(h_%5Ctheta(x%5E%7B(i)%7D)-y%5E%7B(i)%7D)x%5E%7B(i)%7D_j)
+
+The code below will implement the cost function and gradient in ``costFunction``.
 
 ```Matlab
 function [J, grad] = costFunction(theta, X, y)
@@ -63,3 +142,44 @@ grad = 1/m .* sum(gradCost)'; % n+1 x 1 matrix
 
 end
 ```
+
+The code below calls ``costFunction`` with initial parameters of ![\theta](https://render.githubusercontent.com/render/math?math=%5Ctheta).
+
+```Matlab
+% Setup the data matrix appropriately
+[m, n] = size(X);
+
+% Add intercept term to X
+X = [ones(m, 1) X];
+
+% Initialize the fitting parameters
+initial_theta = zeros(n + 1, 1);
+
+% Compute and display the initial cost and gradient
+[cost, grad] = costFunction(initial_theta, X, y);
+fprintf('Cost at initial theta (zeros): %f\n', cost);
+```
+
+Output:
+```
+Cost at initial theta (zeros): 0.693147
+```
+
+```Matlab
+disp('Gradient at initial theta (zeros):'); disp(grad);
+```
+
+Output:
+```
+Gradient at initial theta (zeros):
+   -0.1000
+  -12.0092
+  -11.2628
+```
+
+### Matlab's fminunc
+
+Finding the best parameters ![\theta](https://render.githubusercontent.com/render/math?math=%5Ctheta) for the logistic regression cost function can also be done by calling ``fminunc`` function given a fixed dataset of ``X`` and ``y`` values. Since ![\theta](https://render.githubusercontent.com/render/math?math=%5Ctheta) in logistic regression does not have constraints to take any real value, ``fminunc`` function can be used to finding minimum of unconstrained multivariable. Contraints in optimization refers to constraints on the parameters bound the possible ![\theta](https://render.githubusercontent.com/render/math?math=%5Ctheta) can take.
+
+
+
