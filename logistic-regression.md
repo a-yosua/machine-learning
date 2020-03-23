@@ -181,5 +181,65 @@ Gradient at initial theta (zeros):
 
 Finding the best parameters ![\theta](https://render.githubusercontent.com/render/math?math=%5Ctheta) for the logistic regression cost function can also be done by calling ``fminunc`` function given a fixed dataset of ``X`` and ``y`` values. Since ![\theta](https://render.githubusercontent.com/render/math?math=%5Ctheta) in logistic regression does not have constraints to take any real value, ``fminunc`` function can be used to finding minimum of unconstrained multivariable. Contraints in optimization refers to constraints on the parameters bound the possible ![\theta](https://render.githubusercontent.com/render/math?math=%5Ctheta) can take.
 
+1. Set the ``GradObj`` option to ``on`` so that ``fminunc`` function returns the cost and the gradient. This option makes ``fminunc`` function to use the gradient when minimizing the function.
+2. Set the ``MaxIter`` option to 400 so that ``fminunc`` function runs for 400 steps.
+3. Specify the function to be minimized by using ``@(t)(costFunction(t,X,y))`` with argument ``t`` which calls the ``costFunction``  function defined previously.
 
+After setting up the ``fminunc`` correctly, it should converge to the optimised parameters. The ``fminunc`` function will return the final cost and ![\theta](https://render.githubusercontent.com/render/math?math=%5Ctheta). The final ![\theta](https://render.githubusercontent.com/render/math?math=%5Ctheta) will be used to plot the decision boundary on the training data by ``plotDecisionBoundary`` function.
+
+```Matlab
+% Set options for fminunc
+options = optimoptions(@fminunc,'Algorithm','Quasi-Newton','GradObj', 'on', 'MaxIter', 400);
+
+% Run fminunc to obtain the optimal theta
+% This function will return theta and the cost
+[theta, cost] = fminunc(@(t)(costFunction(t, X, y)), initial_theta, options);
+```
+
+Output:
+
+```
+Local minimum found.
+Optimization completed because the size of the gradient is less than
+the value of the optimality tolerance.
+<stopping criteria details>
+```
+
+```Matlab
+% Print theta
+fprintf('Cost at theta found by fminunc: %f\n', cost);
+```
+
+Output:
+```
+Cost at theta found by fminunc: 0.203498
+```
+
+```Matlab
+disp('theta:');disp(theta);
+```
+
+Output:
+```
+theta:
+  -25.1613
+    0.2062
+    0.2015
+```
+
+```Matlab
+% Plot Boundary
+plotDecisionBoundary(theta, X, y);
+
+% Add some labels
+hold on;
+
+% Labels and Legend
+xlabel('Exam 1 score')
+ylabel('Exam 2 score')
+
+% Specified in plot order
+legend('Admitted', 'Not admitted')
+hold off;
+```
 
