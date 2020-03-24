@@ -1,26 +1,10 @@
 # Logistic regression
 
-This section will build a logistic regression model to predict the chance of student admission to the university based on their past two exams.
-
-The MATLAB codes in this section is based on the exercises from Andrew Ng's [Machine Learning](https://www.coursera.org/learn/machine-learning) course on Coursera.
+This section will build a logistic regression model to predict the chance of student to be admitted to the university based on their previous exam scores. The MATLAB codes are based on the exercises from Andrew Ng's [Machine Learning](https://www.coursera.org/learn/machine-learning) Week 2 course on Coursera.
 
 ## Data overview
 
-The code below will visualise the training data.
-
-```Matlab
-% Plot the data with + indicating (y = 1) examples and o indicating (y = 0) examples.
-plotData(X, y);
- 
-% Labels and Legend
-xlabel('Exam 1 score')
-ylabel('Exam 2 score')
-
-% Specified in plot order
-legend('Admitted', 'Not admitted')
-```
-
-The ``plotData`` function is defined as below.
+First, let us define ``plotData`` function that plots the data points from the training data:
 
 ```Matlab
 function plotData(X, y)
@@ -50,7 +34,21 @@ hold off;
 end
 ```
 
-The data is visualised as in figure below.
+The following code visualizes the training data consisting of exam scores of the students:
+
+```Matlab
+% Plot the data with + indicating (y = 1) examples and o indicating (y = 0) examples.
+plotData(X, y);
+ 
+% Labels and Legend
+xlabel('Exam 1 score')
+ylabel('Exam 2 score')
+
+% Specified in plot order
+legend('Admitted', 'Not admitted')
+```
+
+Output:
 
 <img src="https://github.com/a-yosua/machine-learning/blob/master/images/examScore.png" width="400">
 
@@ -62,11 +60,13 @@ The logistic regression hypothesis is defined as
 
 ![h_\theta(x)=g(\theta^TX)](https://render.githubusercontent.com/render/math?math=h_%5Ctheta(x)%3Dg(%5Ctheta%5ETX))
 
-where ``g`` is the sigmoid function which is defined as 
+where ``g`` is the sigmoid function.
+
+The sigmoid function is defined as
 
 ![g(z)=\frac{1}{1+e^{-z}}](https://render.githubusercontent.com/render/math?math=g(z)%3D%5Cfrac%7B1%7D%7B1%2Be%5E%7B-z%7D%7D).
 
-The code below will implement sigmoid function.
+The ``sigmoid`` function below implements how the sigmoid of ``z`` is calculated:
 
 ```Matlab
 function g = sigmoid(z)
@@ -87,10 +87,22 @@ g = 1./(1+exp(-z));
 end
 ```
 
-Run the code above as below to check whether the function works properly. For large positive values of ``x``, the sigmoid function should return value close to 1. For large negative values of ``x``, the sigmoid function should return value close to 0. For ``x=0``, the sigmoid function should return 0.5.
+Run the code above to check whether the function works properly. 
+
+1. For large positive values of ``x``, the ``sigmoid`` function should return a value close to 1. 
+2. For large negative values of ``x``, the ``sigmoid`` function should return a value close to 0. 
+3. For ``x=0``, the ``sigmoid`` function should return 0.5.
+
+For example:
 
 ```Matlab
 sigmoid(0)
+```
+
+Output:
+
+```
+ans = 0.5000
 ```
 
 ### Cost function
@@ -105,7 +117,7 @@ The cost gradient with a length of ![\theta](https://render.githubusercontent.co
 
 ![\frac{\partial J(\theta)}{\partial \theta_j}=\frac{1}{m}\sum_{i=1}^{m}(h_\theta(x^{(i)})-y^{(i)})x^{(i)}_j](https://render.githubusercontent.com/render/math?math=%5Cfrac%7B%5Cpartial%20J(%5Ctheta)%7D%7B%5Cpartial%20%5Ctheta_j%7D%3D%5Cfrac%7B1%7D%7Bm%7D%5Csum_%7Bi%3D1%7D%5E%7Bm%7D(h_%5Ctheta(x%5E%7B(i)%7D)-y%5E%7B(i)%7D)x%5E%7B(i)%7D_j)
 
-The code below will implement the cost function and gradient in ``costFunction``.
+The ``costFunction`` code below will implement the cost function and gradient:.
 
 ```Matlab
 function [J, grad] = costFunction(theta, X, y)
