@@ -254,3 +254,52 @@ hold off;
 Output: 
 
 <img src="https://github.com/a-yosua/machine-learning/blob/master/images/decisionBoundary.png" width="400">
+
+### Logistic regression evaluation
+
+After calculating the parameters, the model can be used to predict whether a student will be admitted based on their Exam 1 and 2 scores.
+
+The code in ``predict`` function predict whether the student is admitted to the university based on the scores in the training dataset using the learned parameter vector ![\theta](https://render.githubusercontent.com/render/math?math=%5Ctheta).
+
+```Matlab
+function p = predict(theta, X)
+%PREDICT Predict whether the label is 0 or 1 using learned logistic 
+%regression parameters theta
+%   p = PREDICT(theta, X) computes the predictions for X using a 
+%   threshold at 0.5 (i.e., if sigmoid(theta'*x) >= 0.5, predict 1)
+
+m = size(X, 1); % Number of training examples
+
+% You need to return the following variables correctly
+p = zeros(m, 1);
+
+% ====================== YOUR CODE HERE ======================
+% Instructions: Complete the following code to make predictions using
+%               your learned logistic regression parameters. 
+%               You should set p to a vector of 0's and 1's
+%
+
+prob = sigmoid(X*theta); % m x 1 matrix
+p(prob>=0.5) = 1;
+p(prob<0.5) = 0;
+
+% =========================================================================
+
+end
+```
+
+To report the accuracy of the model, the prediction of admission from ``predict`` function is compared with the actual results of admission in the training dataset.
+
+```Matlab
+% Compute accuracy on our training set
+p = predict(theta, X);
+fprintf('Train Accuracy: %f\n', mean(double(p == y)) * 100);
+```
+
+Output:
+
+```
+Train Accuracy: 89.000000
+```
+
+
