@@ -1,4 +1,4 @@
-## Regularized logistic regression
+# Regularized logistic regression
 
 This section is based on the previous article about [logistic regression](../master/logistic-regression.md). Regularization addresses overfitting by keeping all features but reducing the value of parameters ![\theta](https://render.githubusercontent.com/render/math?math=%5Ctheta).
 
@@ -27,7 +27,7 @@ hold off;
 
 Output:
 
-<img src="https://github.com/a-yosua/machine-learning/blob/master/images/regularizedLogisticRegression/qualityScore.png" width="400">
+<img src="https://github.com/a-yosua/machine-learning/blob/master/images/regularizedLogisticRegression/qualityTest.png" width="400">
 
 ## Implementation
 
@@ -161,8 +161,26 @@ We use the ``fminunc`` to learn the optimal parameters. To plot the nonlinear de
 
 The decision boundary changes when we vary the ![\lambda](https://render.githubusercontent.com/render/math?math=%5Clambda).
 
+![\lambda=0](https://render.githubusercontent.com/render/math?math=%5Clambda%3D0)
+
+<img src="https://github.com/a-yosua/machine-learning/blob/master/images/regularizedLogisticRegression/regularizedLogLambda0.png" width="400">
+
+![\lambda=1](https://render.githubusercontent.com/render/math?math=%5Clambda%3D1)
+
+<img src="https://github.com/a-yosua/machine-learning/blob/master/images/regularizedLogisticRegression/regularizedLogLambda1.png" width="400">
+
+![\lambda=10](https://render.githubusercontent.com/render/math?math=%5Clambda%3D10)
+
+<img src="https://github.com/a-yosua/machine-learning/blob/master/images/regularizedLogisticRegression/regularizedLogLambda10.png" width="400">
+
+![\lambda=100](https://render.githubusercontent.com/render/math?math=%5Clambda%3D100)
+
+<img src="https://github.com/a-yosua/machine-learning/blob/master/images/regularizedLogisticRegression/regularizedLogLambda100.png" width="400">
+
 The training set accuracy also varies:
 1. ![\lambda=0](https://render.githubusercontent.com/render/math?math=%5Clambda%3D0), ``Train Accuracy: 88.983015``
 2. ![\lambda=1](https://render.githubusercontent.com/render/math?math=%5Clambda%3D1), ``Train Accuracy: 83.050847``
 3. ![\lambda=10](https://render.githubusercontent.com/render/math?math=%5Clambda%3D10), ``Train Accuracy: 74.576271``
 4. ![\lambda=100](https://render.githubusercontent.com/render/math?math=%5Clambda%3D100), ``Train Accuracy: 61.016949``
+
+Setting the ![\lambda](https://render.githubusercontent.com/render/math?math=%5Clambda) to a large value might results in underfitting.
