@@ -1,6 +1,6 @@
 # Logistic regression
 
-This section will build a logistic regression model to predict the chance of student to be admitted to the university based on their previous exam scores. The MATLAB codes are based on the exercises from Andrew Ng's [Machine Learning](https://www.coursera.org/learn/machine-learning) Week 2 course on Coursera.
+This section will build a logistic regression model to predict the chance of student to be admitted to the university based on their previous exam scores. The MATLAB codes are based on the exercises from Andrew Ng's [Machine Learning](https://www.coursera.org/learn/machine-learning) Week 3 course on Coursera.
 
 ## Data overview
 
@@ -117,7 +117,7 @@ The cost gradient with a length of ![\theta](https://render.githubusercontent.co
 
 ![\frac{\partial J(\theta)}{\partial \theta_j}=\frac{1}{m}\sum_{i=1}^{m}(h_\theta(x^{(i)})-y^{(i)})x^{(i)}_j](https://render.githubusercontent.com/render/math?math=%5Cfrac%7B%5Cpartial%20J(%5Ctheta)%7D%7B%5Cpartial%20%5Ctheta_j%7D%3D%5Cfrac%7B1%7D%7Bm%7D%5Csum_%7Bi%3D1%7D%5E%7Bm%7D(h_%5Ctheta(x%5E%7B(i)%7D)-y%5E%7B(i)%7D)x%5E%7B(i)%7D_j)
 
-The ``costFunction`` code below will implement the cost function and gradient:.
+The ``costFunction`` code below will implement the cost function and gradient:
 
 ```Matlab
 function [J, grad] = costFunction(theta, X, y)
@@ -177,6 +177,9 @@ Output:
 Cost at initial theta (zeros): 0.693147
 ```
 
+Check the computed gradient for logistic regression:
+
+
 ```Matlab
 disp('Gradient at initial theta (zeros):'); disp(grad);
 ```
@@ -191,17 +194,17 @@ Gradient at initial theta (zeros):
 
 ### Matlab's fminunc
 
-Finding the best parameters ![\theta](https://render.githubusercontent.com/render/math?math=%5Ctheta) for the logistic regression cost function can also be done by calling ``fminunc`` function given a fixed dataset of ``X`` and ``y`` values. Since ![\theta](https://render.githubusercontent.com/render/math?math=%5Ctheta) in logistic regression does not have constraints to take any real value, ``fminunc`` function can be used to finding minimum of unconstrained multivariable. Contraints in optimization refers to constraints on the parameters bound the possible ![\theta](https://render.githubusercontent.com/render/math?math=%5Ctheta) can take.
+Finding the best parameters ![\theta](https://render.githubusercontent.com/render/math?math=%5Ctheta) for the logistic regression cost function can also be done by calling ``fminunc`` function given a fixed dataset of ``X`` and ``y`` values. Since ![\theta](https://render.githubusercontent.com/render/math?math=%5Ctheta) in logistic regression does not have constraints to take any real value, ``fminunc`` function can be used to finding a minimum of unconstrained multivariable. Constraints in optimization refers to constraints on the value of parameters ![\theta](https://render.githubusercontent.com/render/math?math=%5Ctheta) can take.
 
 1. Set the ``GradObj`` option to ``on`` so that ``fminunc`` function returns the cost and the gradient. This option makes ``fminunc`` function to use the gradient when minimizing the function.
 2. Set the ``MaxIter`` option to 400 so that ``fminunc`` function runs for 400 steps.
-3. Specify the function to be minimized by using ``@(t)(costFunction(t,X,y))`` with argument ``t`` which calls the ``costFunction``  function defined previously.
+3. Specify the function to be minimized by using ``@(t)(costFunction(t, X, y))`` with argument ``t`` which calls the ``costFunction``  function defined previously.
 
 After setting up the ``fminunc`` correctly, it should converge to the optimised parameters. The ``fminunc`` function will return the final cost and ![\theta](https://render.githubusercontent.com/render/math?math=%5Ctheta). The final ![\theta](https://render.githubusercontent.com/render/math?math=%5Ctheta) will be used to plot the decision boundary on the training data by ``plotDecisionBoundary`` function.
 
 ```Matlab
 % Set options for fminunc
-options = optimoptions(@fminunc,'Algorithm','Quasi-Newton','GradObj', 'on', 'MaxIter', 400);
+options = optimoptions(@fminunc, 'Algorithm', 'Quasi-Newton', 'GradObj', 'on', 'MaxIter', 400);
 
 % Run fminunc to obtain the optimal theta
 % This function will return theta and the cost
