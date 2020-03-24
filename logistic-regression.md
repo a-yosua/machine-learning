@@ -50,7 +50,7 @@ legend('Admitted', 'Not admitted')
 
 Output:
 
-<img src="https://github.com/a-yosua/machine-learning/blob/master/images/examScore.png" width="400">
+<img src="https://github.com/a-yosua/machine-learning/blob/master/images/logisticRegression/examScore.png" width="400">
 
 ## Implementation
 
@@ -268,7 +268,7 @@ hold off;
 
 Output: 
 
-<img src="https://github.com/a-yosua/machine-learning/blob/master/images/decisionBoundary.png" width="400">
+<img src="https://github.com/a-yosua/machine-learning/blob/master/images/logisticRegression/decisionBoundary.png" width="400">
 
 ### Logistic regression evaluation
 
