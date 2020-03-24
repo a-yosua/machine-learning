@@ -152,7 +152,6 @@ Output:
 
 ```
 Cost at initial theta (zeros): 0.693147
-
 ```
 
 # Decision boundary
