@@ -252,3 +252,5 @@ hold off;
 ```
 
 Output: 
+
+<img src="https://github.com/a-yosua/machine-learning/blob/master/images/decisionBoundary.png" width="400">
