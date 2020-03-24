@@ -27,7 +27,7 @@ hold off;
 
 Output:
 
-<img src="https://github.com/a-yosua/machine-learning/blob/master/images/qualityScore.png" width="400">
+<img src="https://github.com/a-yosua/machine-learning/blob/master/images/regularizedLogisticRegression/qualityScore.png" width="400">
 
 ## Implementation
 
@@ -160,8 +160,9 @@ Cost at initial theta (zeros): 0.693147
 We use the ``fminunc`` to learn the optimal parameters. To plot the nonlinear decision boundary, we use ``plotDecisionBoundary`` available from Andrew Ng's [Machine Learning](https://www.coursera.org/learn/machine-learning) Week 3 course on Coursera.
 
 The decision boundary changes when we vary the ![\lambda](https://render.githubusercontent.com/render/math?math=%5Clambda).
+
 The training set accuracy also varies:
 1. ![\lambda=0](https://render.githubusercontent.com/render/math?math=%5Clambda%3D0), ``Train Accuracy: 88.983015``
-2. ![\lambda=1](https://render.githubusercontent.com/render/math?math=%5Clambda%3D1), ``Train Accuracy: 88.983015``
-3. ![\lambda=10](https://render.githubusercontent.com/render/math?math=%5Clambda%3D10), ``Train Accuracy: 88.983015``
-4. ![\lambda=100](https://render.githubusercontent.com/render/math?math=%5Clambda%3D100), ``Train Accuracy: 88.983015``
+2. ![\lambda=1](https://render.githubusercontent.com/render/math?math=%5Clambda%3D1), ``Train Accuracy: 83.050847``
+3. ![\lambda=10](https://render.githubusercontent.com/render/math?math=%5Clambda%3D10), ``Train Accuracy: 74.576271``
+4. ![\lambda=100](https://render.githubusercontent.com/render/math?math=%5Clambda%3D100), ``Train Accuracy: 61.016949``
