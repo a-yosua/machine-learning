@@ -52,7 +52,7 @@ end
 
 The data is visualised as in figure below.
 
-<img src="https://github.com/a-yosua/machine-learning/blob/master/examScore.png" width="400">
+<img src="https://github.com/a-yosua/machine-learning/blob/master/images/examScore.png" width="400">
 
 ## Implementation
 
