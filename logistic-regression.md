@@ -205,6 +205,8 @@ the value of the optimality tolerance.
 <stopping criteria details>
 ```
 
+Check the cost found by ``fminunc``:
+
 ```Matlab
 % Print theta
 fprintf('Cost at theta found by fminunc: %f\n', cost);
@@ -214,6 +216,9 @@ Output:
 ```
 Cost at theta found by fminunc: 0.203498
 ```
+
+Check the ![\theta](https://render.githubusercontent.com/render/math?math=%5Ctheta):
+
 
 ```Matlab
 disp('theta:');disp(theta);
@@ -226,6 +231,9 @@ theta:
     0.2062
     0.2015
 ```
+
+Plot the decision boundary based on the calculated ![\theta](https://render.githubusercontent.com/render/math?math=%5Ctheta):
+
 
 ```Matlab
 % Plot Boundary
@@ -243,3 +251,4 @@ legend('Admitted', 'Not admitted')
 hold off;
 ```
 
+Output: 
