@@ -83,8 +83,85 @@ The cost function for regularized logistic regression is:
 
 The cost gradient is defined as below:
 
-![\frac{\partial J(\theta)}{\partial \theta_j}=\frac{1}{m}\sum_{i=1}^{m}(h_\theta(x^{(i)})-y^{(i)})x^{(i)}_j \textrm{ for } j=0](https://render.githubusercontent.com/render/math?math=%5Cfrac%7B%5Cpartial%20J(%5Ctheta)%7D%7B%5Cpartial%20%5Ctheta_j%7D%3D%5Cfrac%7B1%7D%7Bm%7D%5Csum_%7Bi%3D1%7D%5E%7Bm%7D(h_%5Ctheta(x%5E%7B(i)%7D)-y%5E%7B(i)%7D)x%5E%7B(i)%7D_j%20%5Ctextrm%7B%20for%20%7D%20j%3D0),
+![\frac{\partial J(\theta)}{\partial \theta_j}=\frac{1}{m}\sum_{i=1}^{m}(h_\theta(x^{(i)})-y^{(i)})x^{(i)}_j \textrm{ for } j=0](https://render.githubusercontent.com/render/math?math=%5Cfrac%7B%5Cpartial%20J(%5Ctheta)%7D%7B%5Cpartial%20%5Ctheta_j%7D%3D%5Cfrac%7B1%7D%7Bm%7D%5Csum_%7Bi%3D1%7D%5E%7Bm%7D(h_%5Ctheta(x%5E%7B(i)%7D)-y%5E%7B(i)%7D)x%5E%7B(i)%7D_j%20%5Ctextrm%7B%20for%20%7D%20j%3D0)
 
-![\frac{\partial J(\theta)}{\partial \theta_j}=\left (\frac{1}{m}\sum_{i=1}^{m}(h_\theta(x^{(i)})-y^{(i)})x^{(i)}_j\right )+ \frac{\lambda}{m} \theta_j \textrm{ for } j=\geq 0](https://render.githubusercontent.com/render/math?math=%5Cfrac%7B%5Cpartial%20J(%5Ctheta)%7D%7B%5Cpartial%20%5Ctheta_j%7D%3D%5Cleft%20(%5Cfrac%7B1%7D%7Bm%7D%5Csum_%7Bi%3D1%7D%5E%7Bm%7D(h_%5Ctheta(x%5E%7B(i)%7D)-y%5E%7B(i)%7D)x%5E%7B(i)%7D_j%5Cright%20)%2B%20%5Cfrac%7B%5Clambda%7D%7Bm%7D%20%5Ctheta_j%20%5Ctextrm%7B%20for%20%7D%20j%3D%5Cgeq%200).
+![\frac{\partial J(\theta)}{\partial \theta_j}=\left (\frac{1}{m}\sum_{i=1}^{m}(h_\theta(x^{(i)})-y^{(i)})x^{(i)}_j\right )+ \frac{\lambda}{m} \theta_j \textrm{ for } j=\geq 0](https://render.githubusercontent.com/render/math?math=%5Cfrac%7B%5Cpartial%20J(%5Ctheta)%7D%7B%5Cpartial%20%5Ctheta_j%7D%3D%5Cleft%20(%5Cfrac%7B1%7D%7Bm%7D%5Csum_%7Bi%3D1%7D%5E%7Bm%7D(h_%5Ctheta(x%5E%7B(i)%7D)-y%5E%7B(i)%7D)x%5E%7B(i)%7D_j%5Cright%20)%2B%20%5Cfrac%7B%5Clambda%7D%7Bm%7D%20%5Ctheta_j%20%5Ctextrm%7B%20for%20%7D%20j%3D%5Cgeq%200)
 
-The parameter ![\theta](https://render.githubusercontent.com/render/math?math=%5Ctheta_0) should not be regularized.
+The parameter ![\theta_0](https://render.githubusercontent.com/render/math?math=%5Ctheta_0) should not be regularized.
+
+The ``cosfFunctionReg`` function computes cost and gradient for regularized logistic regression:
+
+```Matlab
+
+function [J, grad] = costFunctionReg(theta, X, y, lambda)
+%COSTFUNCTIONREG Compute cost and gradient for logistic regression with regularization
+%   J = COSTFUNCTIONREG(theta, X, y, lambda) computes the cost of using
+%   theta as the parameter for regularized logistic regression and the
+%   gradient of the cost w.r.t. to the parameters. 
+
+% Initialize some useful values
+m = length(y); % number of training examples
+
+% You need to return the following variables correctly 
+J = 0;
+grad = zeros(size(theta));
+
+% ====================== YOUR CODE HERE ======================
+% Instructions: Compute the cost of a particular choice of theta.
+%               You should set J to the cost.
+%               Compute the partial derivatives and set grad to the partial
+%               derivatives of the cost w.r.t. each parameter in theta
+
+hypothesis = sigmoid(theta'*X'); % 1 x m matrix
+cost = -y.*log(hypothesis') - (1-y).*log(1-hypothesis');
+
+thetaReg = theta(2:size(theta,1),1); % exclude theta0
+costReg = lambda/(2*m) * sum(thetaReg.^2);
+
+J = 1/m * sum(cost) + costReg;
+
+cost = hypothesis'-y; % m x 1 matrix
+gradCost = cost.*X; % m x n+1 matrix
+grad = 1/m .* sum(gradCost)' + lambda/m*theta; % n+1 x 1 matrix
+
+grad(1) = 1/m .* sum(gradCost(:,1))'; % should not regularize theta(1) or j0
+
+% =============================================================
+
+end
+
+```
+
+The code below calls ``costFunctionReg`` function to get the cost and gradient value for regularized logistic regression using the initial value of ![\theta](https://render.githubusercontent.com/render/math?math=%5Ctheta) set to all zeros:
+
+```Matlab
+
+% Initialize fitting parameters
+initial_theta = zeros(size(X, 2), 1);
+
+% Set regularization parameter lambda to 1
+lambda = 1;
+
+% Compute and display initial cost and gradient for regularized logistic regression
+[cost, grad] = costFunctionReg(initial_theta, X, y, lambda);
+fprintf('Cost at initial theta (zeros): %f\n', cost);
+
+```
+
+Output:
+
+```
+Cost at initial theta (zeros): 0.693147
+
+```
+
+# Decision boundary
+
+We use the ``fminunc`` to learn the optimal parameters. To plot the nonlinear decision boundary, we use ``plotDecisionBoundary`` available from Andrew Ng's [Machine Learning](https://www.coursera.org/learn/machine-learning) Week 3 course on Coursera.
+
+The decision boundary changes when we vary the ![\lambda](https://render.githubusercontent.com/render/math?math=%5Clambda).
+The training set accuracy also varies:
+1. ![\lambda=0](https://render.githubusercontent.com/render/math?math=%5Clambda%3D0), ``Train Accuracy: 88.983015``
+2. ![\lambda=1](https://render.githubusercontent.com/render/math?math=%5Clambda%3D1), ``Train Accuracy: 88.983015``
+3. ![\lambda=10](https://render.githubusercontent.com/render/math?math=%5Clambda%3D10), ``Train Accuracy: 88.983015``
+4. ![\lambda=100](https://render.githubusercontent.com/render/math?math=%5Clambda%3D100), ``Train Accuracy: 88.983015``
