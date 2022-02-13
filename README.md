@@ -14,7 +14,7 @@ The following exercises build a neural network model by using TensorFlow.
 
 # Machine Learning Deployment
 
-From Django to call Amazon REST API to invoke Lambda function to predict cancer using the model endpoint deployed by SageMaker (http://34.227.49.154:8000/v1/api/predictbreastcancer/).
+From Django to call Amazon REST API to invoke Lambda function to predict cancer using the model endpoint deployed by SageMaker (http://34.227.49.154:8000/v1/api/predictbreastcancer/ - note: currently the endpoint is down).
 
 The picture below shows how the model is deployed:
 
